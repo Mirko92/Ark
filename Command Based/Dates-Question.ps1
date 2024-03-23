@@ -74,10 +74,17 @@ function Get-WeekDayOccurrences {
 
   Write-Verbose "Days between $time0 and $Year => $diffDays";
 
-  $yearStartingWeekDayId = ($diffDays % 7)
-  $yearStartingWeekDayName = $weekDays[$yearStartingWeekDayId];
+  # If the provided year is in the past compared to $time0
+  if ($time0 -gt $Year) {
+    # Calculate the weekday backward
+    $yearStartingWeekDayId = 7 - ($diffDays % 7)
+    $yearStartingWeekDayName = $weekDays[$yearStartingWeekDayId];
+  } else {
+    # Otherwise, calculate the weekday forward
+    $yearStartingWeekDayId = ($diffDays % 7)
+    $yearStartingWeekDayName = $weekDays[$yearStartingWeekDayId];
+  }
   Write-Verbose "Provided year starts with: $yearStartingWeekDayName";
-
 
 
   $isCentury = ($Year % 100) -eq 0
